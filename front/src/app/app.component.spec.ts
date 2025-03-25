@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { expect } from '@jest/globals'; // Importer Jest si nécessaire
+import { expect } from '@jest/globals'; 
 import { AppComponent } from './app.component';
 import { Router } from '@angular/router';
 import { AuthService } from './features/auth/services/auth.service';
@@ -59,6 +59,7 @@ describe('AppComponent', () => {
     });
   });
 
+  
  /* it('should call logout and navigate to home', () => {
     spyOn(mockSessionService, 'logOut');  // Espionner la méthode logOut
     spyOn(mockRouter, 'navigate');  // Espionner la méthode navigate
