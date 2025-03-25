@@ -28,7 +28,7 @@ describe('MeComponent', () => {
 
     mockSessionService = {
       logOut: jest.fn(),
-      sessionInformation: { id: 1 } // ✅ Simule une session
+      sessionInformation: { id: 1 } // Simule une session
     } as unknown as jest.Mocked<SessionService>;
 
     mockRouter = {
