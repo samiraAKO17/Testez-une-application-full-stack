@@ -1,40 +1,60 @@
-import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@jest/globals';
 
 import { RegisterComponent } from './register.component';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
-describe('RegisterComponent', () => {
+describe('RegisterComponent (Integration Test)', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
+  let authService: AuthService;
+  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RegisterComponent],
       imports: [
-        BrowserAnimationsModule,
-        HttpClientModule,
-        ReactiveFormsModule,  
-        MatCardModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule
-      ]
-    })
-      .compileComponents();
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([])
+      ],
+      providers: [AuthService]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
+    authService = TestBed.inject(AuthService);
+    router = TestBed.inject(Router);
+
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should register a user and redirect to login', () => {
+    const spyRegister = jest.spyOn(authService, 'register').mockReturnValue(of(void 0));
+    const spyNavigate = jest.spyOn(router, 'navigate');
+  
+    component.form.setValue({
+      email: 'user@example.com',
+      firstName: 'John',
+      lastName: 'Doe',
+      password: 'securePass123'
+    });
+  
+    component.submit(); // Exécute directement la soumission du formulaire
+  
+    expect(spyRegister).toHaveBeenCalledWith({
+      email: 'user@example.com',
+      firstName: 'John',
+      lastName: 'Doe',
+      password: 'securePass123'
+    });
+  
+    expect(spyNavigate).toHaveBeenCalledWith(['/login']);
   });
-});
+});  
