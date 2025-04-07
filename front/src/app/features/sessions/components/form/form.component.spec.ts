@@ -143,6 +143,7 @@ describe('FormComponent', () => {
     expect(sessionApiService.create).toHaveBeenCalledWith(sessionData);
     expect(component['exitPage']).toHaveBeenCalledWith('Session created !');
   });
+
   
 
   it('should redirect non-admin users', () => {

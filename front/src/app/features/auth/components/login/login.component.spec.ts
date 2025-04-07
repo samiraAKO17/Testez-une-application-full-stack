@@ -29,25 +29,10 @@ describe('LoginComponent', () => {
     } as unknown as jest.Mocked<AuthService>;
 
     sessionServiceMock = {
-      logIn: jest.fn(),
-      logOut: jest.fn(),
-      isLogged: false,
-      sessionInformation: undefined,
-      $isLogged: of(false), // Doit être un MockInstance<Observable<boolean>, []>
+       logIn: jest.fn(),
     } as unknown as jest.Mocked<SessionService>;
-
     routerMock = {
       navigate: jest.fn(),
-      events: of(), // Ajout pour correspondre à la définition
-      config: [],
-      routerState: {} as any,
-      errorHandler: jest.fn(),
-      resetConfig: jest.fn(),
-      dispose: jest.fn(),
-      createUrlTree: jest.fn(),
-      serializeUrl: jest.fn(),
-      parseUrl: jest.fn(),
-      isActive: jest.fn(),
     } as unknown as jest.Mocked<Router>;
 
     await TestBed.configureTestingModule({
