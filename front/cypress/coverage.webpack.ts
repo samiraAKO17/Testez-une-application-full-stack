@@ -4,9 +4,19 @@ export default {
   module: {
     rules: [
       {
-        test: /\.(js|ts)$/,
-        loader: '@jsdevtools/coverage-istanbul-loader',
-        options: { esModules: true },
+        test: /\.ts$/,
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true
+            }
+          },
+          {
+            loader: '@jsdevtools/coverage-istanbul-loader',
+            options: { esModules: true }
+          }
+        ],
         enforce: 'post',
         include: path.join(__dirname, '..', 'src'),
         exclude: [
@@ -14,7 +24,7 @@ export default {
           /node_modules/,
           /(ngfactory|ngstyle)\.js/,
         ],
-      },
-    ],
-  },
+      }
+    ]
+  }
 };

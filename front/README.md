@@ -6,7 +6,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Git clone:
 
-> git clone https://github.com/OpenClassrooms-Student-Center/P5-Full-Stack-testing
+> git clone https://github.com/samiraAKO17/Testez-une-application-full-stack.git
 
 Go inside folder:
 
@@ -47,26 +47,73 @@ By default the admin account is:
 
 ### Test
 
-#### E2E
+## Tests
 
-Launching e2e test:
+### Front-end Tests
 
-> npm run e2e
+#### 1. Unit Tests with Jest
+- Run unit tests for the front-end:
 
-Generate coverage report (you should launch e2e test before):
+```bash
+npm run test
+```
 
-> npm run e2e:coverage
+- Run unit tests in watch mode (for active development):
+
+```bash
+npm run test:watch
+```
+
+- Generate coverage report for Jest:
+
+```bash
+npm run test:coverage
+```
+
+Coverage report is available here:
+
+> front/coverage/jest/lcov-report/index.html
+
+#### 2. End-to-End Tests with Cypress
+
+- Run E2E tests:
+
+```bash
+npm run e2e
+```
+
+- Generate coverage report (launch E2E tests first):
+
+```bash
+npm run e2e:coverage
+```
 
 Report is available here:
 
 > front/coverage/lcov-report/index.html
 
-#### Unitary test
+### Back-end Tests
 
-Launching test:
+#### 3. Unit and Integration Tests with JUnit
 
-> npm run test
+- Go to the back-end folder:
 
-for following change:
+```bash
+cd back
+```
 
-> npm run test:watch
+- Run tests:
+
+```bash
+mvn clean verify
+```
+
+- Generate coverage report (Jacoco):
+
+```bash
+mvn jacoco:report
+```
+
+Report is available here:
+
+> back/target/site/jacoco/index.html
