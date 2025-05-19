@@ -13,13 +13,15 @@ class TeacherTest {
 
     @BeforeEach
     void setUp() {
-        teacher = new Teacher();
-        teacher.setId(1L);
-        teacher.setFirstName("John");
-        teacher.setLastName("Doe");
-        teacher.setCreatedAt(LocalDateTime.now().minusDays(1));
-        teacher.setUpdatedAt(LocalDateTime.now());
+        teacher = Teacher.builder()
+                .id(1L)
+                .firstName("John")
+                .lastName("Doe")
+                .createdAt(LocalDateTime.now().minusDays(1))
+                .updatedAt(LocalDateTime.now())
+                .build();
     }
+
 
     @Test
     void testGettersAndSetters() {
@@ -48,5 +50,21 @@ class TeacherTest {
         assertNotNull(teacher.getCreatedAt());
         assertNotNull(teacher.getUpdatedAt());
         assertTrue(teacher.getUpdatedAt().isAfter(teacher.getCreatedAt()));
+    }
+
+
+    @Test
+    void testValidTeacher() {
+        assertNotNull(teacher);
+        assertEquals("John", teacher.getFirstName());
+        assertEquals("Doe", teacher.getLastName());
+    }
+
+    @Test
+    void testToStringEqualsHashCode() {
+        Teacher anotherTeacher = Teacher.builder().id(1L).firstName("John").lastName("Doe").build();
+        assertEquals(teacher, anotherTeacher);
+        assertEquals(teacher.hashCode(), anotherTeacher.hashCode());
+        assertTrue(teacher.toString().contains("Teacher(id=1"));
     }
 }

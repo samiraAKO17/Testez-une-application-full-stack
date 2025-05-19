@@ -34,6 +34,19 @@ class UserTests {
         validator = factory.getValidator();
     }
 
+
+    @Test
+    void testUserModel_Constructor() {
+        User user1 = new User();
+        user1.setId(1L);
+        user1.setEmail("user@example.com");
+        user1.setPassword("password");
+
+        assertEquals(1L, user1.getId());
+        assertEquals("user@example.com", user1.getEmail());
+        assertEquals("password", user1.getPassword());
+    }
+
     @Test
     void testValidUser() {
         Set<ConstraintViolation<User>> violations = validator.validate(user);
@@ -54,77 +67,13 @@ class UserTests {
         assertEquals(user.hashCode(), anotherUser.hashCode());
         assertTrue(user.toString().contains("User(id=1"));
     }
-}
-/*
-class TeacherTest {
-
-    private Teacher teacher;
-
-    @BeforeEach
-    void setUp() {
-        teacher = Teacher.builder()
-                .id(1L)
-                .firstName("John")
-                .lastName("Doe")
-                .createdAt(LocalDateTime.now().minusDays(1))
-                .updatedAt(LocalDateTime.now())
-                .build();
-    }
 
     @Test
-    void testValidTeacher() {
-        assertNotNull(teacher);
-        assertEquals("John", teacher.getFirstName());
-        assertEquals("Doe", teacher.getLastName());
-    }
+    void testUserModel_EqualsAndHashCode() {
+        User user1 = new User(1L, "user@example.com", "lastname", "firstname", "password", false, LocalDateTime.now(), LocalDateTime.now());
+        User user2 = new User(1L, "user@example.com", "lastname", "firstname", "password", false, LocalDateTime.now(), LocalDateTime.now());
 
-    @Test
-    void testToStringEqualsHashCode() {
-        Teacher anotherTeacher = Teacher.builder().id(1L).firstName("John").lastName("Doe").build();
-        assertEquals(teacher, anotherTeacher);
-        assertEquals(teacher.hashCode(), anotherTeacher.hashCode());
-        assertTrue(teacher.toString().contains("Teacher(id=1"));
+        assertEquals(user1, user2);
+        assertEquals(user1.hashCode(), user2.hashCode());
     }
 }
-
-class SessionTest {
-
-    private Session session;
-    private Teacher teacher;
-    private User user;
-
-    @BeforeEach
-    void setUp() {
-        teacher = Teacher.builder().id(1L).firstName("John").lastName("Doe").build();
-
-        user = User.builder().id(1L).email("user@example.com").build();
-
-        session = Session.builder()
-                .id(1L)
-                .name("Yoga Class")
-                .description("A relaxing yoga session.")
-                .date(new Date())
-                .teacher(teacher)
-                .users(Arrays.asList(user))
-                .build();
-    }
-
-    @Test
-    void testSessionCreation() {
-        assertNotNull(session);
-        assertEquals("Yoga Class", session.getName());
-        assertEquals("A relaxing yoga session.", session.getDescription());
-        assertEquals(teacher, session.getTeacher());
-        assertEquals(1, session.getUsers().size());
-    }
-
-    @Test
-    void testToStringEqualsHashCode() {
-        Session anotherSession = Session.builder().id(1L).name("Yoga Class").build();
-        assertEquals(session, anotherSession);
-        assertEquals(session.hashCode(), anotherSession.hashCode());
-        assertTrue(session.toString().contains("Session(id=1"));
-    }
-}
-
-* */

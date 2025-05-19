@@ -18,13 +18,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class MappersTest {
+class SessionMapperTest {
 
     @InjectMocks
     private UserMapperImpl userMapper;

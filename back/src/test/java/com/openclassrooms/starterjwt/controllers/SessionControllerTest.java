@@ -1,26 +1,35 @@
-package com.openclassrooms.starterjwt;
+package com.openclassrooms.starterjwt.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.openclassrooms.starterjwt.controllers.SessionController;
+import com.openclassrooms.starterjwt.dto.SessionDto;
+import com.openclassrooms.starterjwt.mapper.SessionMapper;
 import com.openclassrooms.starterjwt.models.Session;
 import com.openclassrooms.starterjwt.payload.request.LoginRequest;
 import com.openclassrooms.starterjwt.payload.response.JwtResponse;
 import com.openclassrooms.starterjwt.services.SessionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Date;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.ArgumentMatchers.eq;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ExtendWith(MockitoExtension.class)
 class SessionControllerTest {
 
     @Autowired
@@ -31,6 +40,10 @@ class SessionControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+
+    @MockBean
+    private SessionMapper sessionMapper;
 
     private String jwtToken;
 
@@ -88,6 +101,76 @@ class SessionControllerTest {
     void testGetAllSessions() throws Exception {
         mockMvc.perform(get("/api/session")
                         .header("Authorization", jwtToken))
+                .andExpect(status().isOk());
+    }
+
+
+    @Test
+    void testGetSessionById_shouldReturnSession() throws Exception {
+        Session session = new Session();
+        session.setId(1L);
+
+        when(sessionService.getById(1L)).thenReturn(session);
+
+        mockMvc.perform(get("/api/session/1").header("Authorization", jwtToken))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testGetSessionById_shouldReturnNotFound() throws Exception {
+        when(sessionService.getById(1L)).thenReturn(null);
+
+        mockMvc.perform(get("/api/session/1").header("Authorization", jwtToken))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testCreateSession_shouldReturnCreatedSession() throws Exception {
+        SessionDto sessionDto = new SessionDto();
+        sessionDto.setName("Test Session");
+        sessionDto.setTeacher_id(1L);
+        sessionDto.setDescription("A test session description");
+        sessionDto.setDate(new Date());
+
+        Session session = new Session();
+        session.setId(1L);
+
+        when(sessionMapper.toEntity(any(SessionDto.class))).thenReturn(session);
+        when(sessionService.create(any())).thenReturn(session);
+
+        mockMvc.perform(post("/api/session").header("Authorization", jwtToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(sessionDto)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testDeleteSession_shouldReturnOk() throws Exception {
+        when(sessionService.getById(1L)).thenReturn(new Session());
+
+        doNothing().when(sessionService).delete(1L);
+
+        mockMvc.perform(delete("/api/session/1").header("Authorization", jwtToken))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testUpdateSession_shouldReturnUpdatedSession() throws Exception {
+        SessionDto sessionDto = new SessionDto();
+        sessionDto.setName("Updated Session");
+        sessionDto.setTeacher_id(1L);
+        sessionDto.setDescription("A test session description");
+        sessionDto.setDate(new Date());
+
+        Session session = new Session();
+        session.setId(1L);
+
+        when(sessionMapper.toEntity(any(SessionDto.class))).thenReturn(session);
+        when(sessionService.update(eq(1L), any())).thenReturn(session);
+
+        mockMvc.perform(put("/api/session/1").header("Authorization", jwtToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(sessionDto)))
                 .andExpect(status().isOk());
     }
 }
