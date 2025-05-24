@@ -76,4 +76,34 @@ class UserTests {
         assertEquals(user1, user2);
         assertEquals(user1.hashCode(), user2.hashCode());
     }
+    @Test
+    void testUserBuilderToString() {
+        User.UserBuilder builder = User.builder();
+        String str = builder.toString();
+        assertNotNull(str);  // Juste vérifier que ça ne crash pas et renvoie bien une chaîne
+    }
+
+    @Test
+    void testUserBuilderSetters() {
+        User.UserBuilder builder = User.builder();
+
+        builder.id(10L)
+                .email("builder@example.com")
+                .lastName("BuilderLastName")
+                .firstName("BuilderFirstName")
+                .password("builderPass")
+                .admin(true)
+                .createdAt(LocalDateTime.now().minusDays(2))
+                .updatedAt(LocalDateTime.now());
+
+        User builtUser = builder.build();
+
+        assertEquals(10L, builtUser.getId());
+        assertEquals("builder@example.com", builtUser.getEmail());
+        assertEquals("BuilderLastName", builtUser.getLastName());
+        assertEquals("BuilderFirstName", builtUser.getFirstName());
+        assertEquals("builderPass", builtUser.getPassword());
+        assertTrue(builtUser.isAdmin());
+    }
+
 }

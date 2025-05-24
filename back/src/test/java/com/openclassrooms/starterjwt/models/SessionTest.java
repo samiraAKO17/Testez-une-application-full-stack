@@ -81,4 +81,10 @@ class SessionTest {
         assertEquals(2, session.getUsers().size());
         assertTrue(session.getUsers().contains(newUser));
     }
+    @Test
+    void testToString() {
+        String result = session.toString();
+        assertTrue(result.contains("Yoga Class"));
+    }
+
 }

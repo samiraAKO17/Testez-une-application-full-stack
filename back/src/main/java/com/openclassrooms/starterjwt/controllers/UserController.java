@@ -46,7 +46,7 @@ public class UserController {
             User user = this.userService.findById(Long.valueOf(id));
 
             if (user == null) {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.notFound() .build();
             }
 
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

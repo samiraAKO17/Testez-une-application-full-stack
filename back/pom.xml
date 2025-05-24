@@ -88,6 +88,26 @@
 			<version>5.12.2</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<version>4.11.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy</artifactId>
+			<version>1.14.5</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy-agent</artifactId>
+			<version>1.14.5</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -164,11 +184,7 @@
 				<version>0.8.10</version>
 				<configuration>
 					<excludes>
-						<exclude>com/openclassrooms/starterjwt/SpringBootSecurityJwtApplication.class</exclude>
 						<exclude>com/openclassrooms/starterjwt/dto/*</exclude>
-						<exclude>com/openclassrooms/starterjwt/models/*</exclude>
-						<exclude>com/openclassrooms/starterjwt/payload/**</exclude>
-						<exclude>**/config/*</exclude>
 					</excludes>
 				</configuration>
 				<executions>

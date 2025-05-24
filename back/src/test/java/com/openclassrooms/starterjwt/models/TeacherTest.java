@@ -67,4 +67,14 @@ class TeacherTest {
         assertEquals(teacher.hashCode(), anotherTeacher.hashCode());
         assertTrue(teacher.toString().contains("Teacher(id=1"));
     }
+    @Test
+    void testTeacherBuilder() {
+        Teacher teacher = Teacher.builder()
+                .id(2L)
+                .firstName("Alice")
+                .lastName("Smith")
+                .build();
+
+        assertEquals("Alice", teacher.getFirstName());
+    }
 }
